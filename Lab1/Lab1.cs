@@ -59,16 +59,6 @@ namespace Lab1
                 {
                     Key[j] = GenerateByteForKey(i, KeyLength - (j + 1));
                 }
-                if (Key[0] == 76)
-                {
-                    if (Key[1] == 48)
-                    {
-                        if (Key[2] == 108)
-                        {
-                            Console.WriteLine("Fuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuck");
-                        }
-                    }
-                }
 
                 byte[] output = new byte[Text.Length];
                 for (int c = 0; c < Text.Length; c++)

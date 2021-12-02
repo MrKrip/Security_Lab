@@ -52,19 +52,28 @@ namespace Lab1
             //IndexOfCoincidence(Text);
             int KeyLength = 3;
             var MaxIterator = Math.Pow(255, KeyLength);
-            for (int i=0;i<=MaxIterator;i++)
+            for (int i = 0; i <= MaxIterator; i++)
             {
-                //Console.WriteLine(i);
-                string Key = string.Empty;
-                for(int j=0;j<KeyLength;j++)
+                byte[] Key = new byte[3];
+                for (int j = 0; j < KeyLength; j++)
                 {
-                    Key += (char)GenerateByteForKey(i,KeyLength-(j+1));
+                    Key[j] = GenerateByteForKey(i, KeyLength - (j + 1));
+                }
+                if (Key[0] == 76)
+                {
+                    if (Key[1] == 48)
+                    {
+                        if (Key[2] == 108)
+                        {
+                            Console.WriteLine("Fuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuck");
+                        }
+                    }
                 }
 
                 byte[] output = new byte[Text.Length];
                 for (int c = 0; c < Text.Length; c++)
                 {
-                    output[c] = (byte)(Text[c] ^ Key[c%KeyLength]);
+                    output[c] = (byte)(Text[c] ^ Key[c % KeyLength]);
                 }
 
                 string dexored = Encoding.ASCII.GetString(output);
@@ -97,16 +106,11 @@ namespace Lab1
             }
         }
 
-        public byte GenerateByteForKey(int iterator,int position)
+        public byte GenerateByteForKey(int iterator, int position)
         {
-            try
-            {
-                return Convert.ToByte((int)(iterator / (Math.Pow(255, position))));
-            }
-            catch(OverflowException)
-            {
-                return Convert.ToByte((int)(iterator % 255));
-            }            
+
+            return Convert.ToByte((int)((iterator / Math.Pow(255, position)) % 255));
+
         }
     }
 }

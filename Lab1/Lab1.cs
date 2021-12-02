@@ -45,8 +45,7 @@ namespace Lab1
         }
 
         public void Lab1_2(string Context)
-        {
-            Regex regex = new Regex(@"(^\w+) \w+");
+        {            
             var base64EncodedBytes = Convert.FromBase64String(Context);
             var Text = Encoding.UTF8.GetString(base64EncodedBytes);
             //IndexOfCoincidence(Text);
@@ -54,7 +53,7 @@ namespace Lab1
             var MaxIterator = Math.Pow(255, KeyLength);
             for (int i = 0; i <= MaxIterator; i++)
             {
-                byte[] Key = new byte[3];
+                byte[] Key = new byte[KeyLength];
                 for (int j = 0; j < KeyLength; j++)
                 {
                     Key[j] = GenerateByteForKey(i, KeyLength - (j + 1));
@@ -67,10 +66,14 @@ namespace Lab1
                 }
 
                 string dexored = Encoding.ASCII.GetString(output);
-                if (regex.IsMatch(dexored))
+                if (dexored.Contains(" the "))
                 {
                     Console.WriteLine("-------------------------------------------------");
-                    Console.WriteLine(i);
+                    Console.Write("Key => ");
+                    for(int j=0;j<KeyLength;j++)
+                    {
+                        Console.Write($"{(char)Key[j]}");
+                    }
                     Console.WriteLine();
                     Console.WriteLine(dexored);
                 }
@@ -102,5 +105,6 @@ namespace Lab1
             return Convert.ToByte((int)((iterator / Math.Pow(255, position)) % 255));
 
         }
+
     }
 }

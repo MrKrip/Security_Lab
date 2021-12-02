@@ -13,9 +13,9 @@ namespace Lab1
         static void Main(string[] args)
         {
             string path = @"D:\Сесурити\";
-            string Context = File.ReadAllText(path+ "Lab1_1.txt");
+            string Context = File.ReadAllText(path+ "Lab1_2.txt");
             Lab1 lab1 = new Lab1();
-            lab1.Lab1_1(Context);
+            lab1.Lab1_2(Context);
         }
     }
 }

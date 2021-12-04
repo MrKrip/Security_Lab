@@ -48,55 +48,82 @@ namespace Lab1
         {            
             var base64EncodedBytes = Convert.FromBase64String(Context);
             var Text = Encoding.UTF8.GetString(base64EncodedBytes);
-            //IndexOfCoincidence(Text);
-            int KeyLength = 3;
-            var MaxIterator = Math.Pow(255, KeyLength);
-            for (int i = 0; i <= MaxIterator; i++)
-            {
-                byte[] Key = new byte[KeyLength];
-                for (int j = 0; j < KeyLength; j++)
-                {
-                    Key[j] = GenerateByteForKey(i, KeyLength - (j + 1));
-                }
+            IndexOfCoincidence(Text);
+            /* int KeyLength = 3;
+             var MaxIterator = Math.Pow(255, KeyLength);
+             for (int i = 0; i <= MaxIterator; i++)
+             {
+                 byte[] Key = new byte[KeyLength];
+                 for (int j = 0; j < KeyLength; j++)
+                 {
+                     Key[j] = GenerateByteForKey(i, KeyLength - (j + 1));
+                 }
 
-                byte[] output = new byte[Text.Length];
-                for (int c = 0; c < Text.Length; c++)
-                {
-                    output[c] = (byte)(Text[c] ^ Key[c % KeyLength]);
-                }
+                 byte[] output = new byte[Text.Length];
+                 for (int c = 0; c < Text.Length; c++)
+                 {
+                     output[c] = (byte)(Text[c] ^ Key[c % KeyLength]);
+                 }
 
-                string dexored = Encoding.ASCII.GetString(output);
-                if (dexored.Contains(" the "))
-                {
-                    Console.WriteLine("-------------------------------------------------");
-                    Console.Write("Key => ");
-                    for(int j=0;j<KeyLength;j++)
-                    {
-                        Console.Write($"{(char)Key[j]}");
-                    }
-                    Console.WriteLine();
-                    Console.WriteLine(dexored);
-                }
-            }
+                 string dexored = Encoding.ASCII.GetString(output);
+                 if (dexored.Contains(" the "))
+                 {
+                     Console.WriteLine("-------------------------------------------------");
+                     Console.Write("Key => ");
+                     for(int j=0;j<KeyLength;j++)
+                     {
+                         Console.Write($"{(char)Key[j]}");
+                     }
+                     Console.WriteLine();
+                     Console.WriteLine(dexored);
+                 }
+             }*/
         }
+
 
 
         public void IndexOfCoincidence(string Text)
         {
             string temp = Text;
+            var ListKeys = new List<int>();
+            var ListCoinc = new List<double>();
+            var BetterKey = new List<int>();
+            double CoincidenceCount;
             for (int i = 0; i < Text.Length; i++)
             {
                 temp = temp.Last() + temp.Substring(0, temp.Length - 1);
-                double CoincidenceCount = 0;
+                CoincidenceCount = 0;
                 for (int j = 0; j < Text.Length; j++)
                 {
                     if (Text[j] == temp[j])
                     {
                         CoincidenceCount++;
                     }
-                }
-                Console.WriteLine($"{i + 1} => {CoincidenceCount / temp.Length}");
+                }               
+                ListKeys.Add(i);
+                ListCoinc.Add(CoincidenceCount / temp.Length);
+               // Console.WriteLine($"{ListKeys[i] + 1} => {ListCoinc[i]}");
             }
+                  
+            for (var j = 1; j < ListCoinc.Count; j++)
+            {
+                CoincidenceCount = 0;
+                for (var i = 1; i < ListKeys.Count; i++)
+                {
+                    if (i % ListKeys[j] == 0)
+                    {
+                        CoincidenceCount += ListCoinc[j];
+                    }
+                }
+                if ((CoincidenceCount / ((double)ListCoinc.Count / ListKeys[j])) >= 0.06)
+                {
+                    BetterKey.Add(ListKeys[j]);
+                }                
+            }
+            for (var j = 0; j < BetterKey.Count; j++)
+            {
+                Console.WriteLine($"Key:{ BetterKey[j]+1}");
+            }            
         }
 
         public byte GenerateByteForKey(int iterator, int position)

@@ -48,8 +48,8 @@ namespace Lab1
         {            
             var base64EncodedBytes = Convert.FromBase64String(Context);
             var Text = Encoding.UTF8.GetString(base64EncodedBytes);
-            IndexOfCoincidence(Text);
-            /* int KeyLength = 3;
+            // IndexOfCoincidence(Text);      
+             int KeyLength = 3;
              var MaxIterator = Math.Pow(255, KeyLength);
              for (int i = 0; i <= MaxIterator; i++)
              {
@@ -76,13 +76,20 @@ namespace Lab1
                      }
                      Console.WriteLine();
                      Console.WriteLine(dexored);
+            
                  }
-             }*/
+         
+        }
+            
+        }
+
+        public void Lab1_3(string Context) {
+            Genetic genAlgorithm = new Genetic(Context);
+            genAlgorithm.getTrigram();
         }
 
 
-
-        public void IndexOfCoincidence(string Text)
+        private void IndexOfCoincidence(string Text)
         {
             string temp = Text;
             var ListKeys = new List<int>();
@@ -102,7 +109,7 @@ namespace Lab1
                 }               
                 ListKeys.Add(i);
                 ListCoinc.Add(CoincidenceCount / temp.Length);
-               // Console.WriteLine($"{ListKeys[i] + 1} => {ListCoinc[i]}");
+               Console.WriteLine($"{ListKeys[i] + 1} => {ListCoinc[i]}");
             }
                   
             for (var j = 1; j < ListCoinc.Count; j++)
@@ -126,7 +133,7 @@ namespace Lab1
             }            
         }
 
-        public byte GenerateByteForKey(int iterator, int position)
+        private byte GenerateByteForKey(int iterator, int position)
         {
 
             return Convert.ToByte((int)((iterator / Math.Pow(255, position)) % 255));

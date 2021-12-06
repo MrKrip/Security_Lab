@@ -86,7 +86,7 @@ namespace Lab1
         public void Lab1_3(string Context) {
             Genetic genAlgorithm = new Genetic(Context);
             genAlgorithm.getTrigram();
-            genAlgorithm.GeneticDecrypt();
+            string answer = genAlgorithm.GeneticDecrypt();
         }
 
 

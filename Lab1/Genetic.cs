@@ -19,13 +19,14 @@ namespace Lab1
         private int lettersCount = 26;
         private Dictionary<string, double> trigramDictionary = new Dictionary<string, double>();
         private char[] CharContext;
-        private char[] CharDecrypt;        
-        
+        private string CharDecrypt;
+        private int mutationProbability = 20;
+
+
 
         public Genetic(String Context)
         {
-            CharContext = Context.ToCharArray();
-            CharDecrypt = new char[CharContext.Length];          
+            CharContext = Context.ToCharArray();                   
         }
 
         public void getTrigram() {
@@ -52,48 +53,138 @@ namespace Lab1
             }
         }
 
-        public void GeneticDecrypt() {
+        public string  GeneticDecrypt() {
             int generation = 1;
             var chromosomes = GenerateStartPopulation(1000);
+            double bestIndividual;
+            char[] bestish = new char[lettersCount];
             while (generation < 100) {
                 chromosomes = OneHundredBestChromosomes(chromosomes);
+                bestish = chromosomes[0];
+                bestIndividual = FitnesFunction(bestish);
+                CharDecrypt = SubstitutionCipher(CharContext, bestish);
+                Console.WriteLine($"\nEncriptionKey: { new string(bestish)}\nGeneration: {generation} - BestIndividual: {bestIndividual}");
+                Console.WriteLine(CharDecrypt);
+                Crossover(ref chromosomes);
+                Mutation(ref chromosomes);                
                 generation++;
+                
             }
+            return CharDecrypt;
 
         }
+
+        private void Mutation(ref List<char[]> chromosomes)
+        {
+           
+            foreach (var chromosome in chromosomes)
+            {
+                Random random = new Random();
+                var percentMutation = random.Next(100);
+                if (percentMutation <= mutationProbability)
+                {
+                    var mutateGen1 = RandGen(chromosome);                    
+                    var mutateGen2 = RandGen(chromosome);
+                    (chromosome[mutateGen1], chromosome[mutateGen2]) = (chromosome[mutateGen2], chromosome[mutateGen1]);
+                }
+            }
+        }
+
+        private int RandGen(char[] chromosome)
+        {
+            Random random = new Random();
+            var rnd = random.Next(chromosome.Length);
+            var mutateGen = random.Next(rnd);
+            return mutateGen;
+        }
+
+        private void Crossover(ref List<char[]> chromosomes)
+        {
+            Random random = new Random();
+           
+            var children = new List<char[]>();
+            for (var i = 1; i <= chromosomes.Count; i++)
+            {
+                for (int j = 0; j < 100; j++)
+                {
+                    var Mother = chromosomes[j];
+                    var Father = chromosomes[random.Next(chromosomes.Count)];
+                    var child = new char[Mother.Length];
+                    var gens = CryptoLetters.ToList();
+                    bool queue = true;
+                    for (var k = 0; k < Mother.Length; k++)
+                    {                        
+                        var isContainMotherGen = child.Contains(Mother[k]);
+                        var isContainFatherGen = child.Contains(Father[k]);
+
+                        if (isContainMotherGen && isContainFatherGen)
+                        {
+                            var randomGen = gens[random.Next(0, gens.Count)];
+                            child[k] = randomGen;
+                            gens.Remove(randomGen);
+                        }
+                        else if (isContainMotherGen)
+                        {
+                            child[k] = Father[k];
+                            gens.Remove(Father[k]);
+                        }
+                        else if (isContainFatherGen)
+                        {
+                            child[k] = Mother[k];
+                            gens.Remove(Mother[k]);
+                        }                        
+                        else
+                        {
+                            if (queue) {
+                                child[k] = Mother[k];
+                                gens.Remove(Mother[k]);
+                                queue = false;
+                            } else {
+                                child[k] = Father[k];
+                                gens.Remove(Father[k]);
+                                queue = true;
+                            }
+                            
+                        }
+                       
+                    }
+                    children.Add(child);
+                }
+            }
+            chromosomes=children;
+        }
+      
 
         private List<char[]> OneHundredBestChromosomes(List<char[]> chromosomes)
         {
-            double[] dio = new double[1000];
-            double[] dio2 = new double[1000];
-            List<char[]> chromosomes2 = chromosomes;
-
+            double[] bestGen = new double[chromosomes.Count];            
+            List<char[]> chromosomesTemp = chromosomes;
             for (int i=0; i < chromosomes.Count; i++) {
-                dio[i] = FitnesFunction(chromosomes[i]);
+                bestGen[i] = FitnesFunction(chromosomes[i]);
               
             }
-            Sorttop(ref dio, ref chromosomes2);
-            chromosomes2.RemoveRange(100, 900);
+            SortTop(ref bestGen, ref chromosomesTemp);
+            chromosomesTemp.RemoveRange(100, chromosomesTemp.Count-100);
 
-            return chromosomes.OrderByDescending(FitnesFunction).Take(100).ToList();
+            return chromosomesTemp;
         }
 
-        private void Sorttop(ref double[] dio, ref List<char[]> chromosomes)
+        private void SortTop(ref double[] bestGen, ref List<char[]> chromosomes)
         {
             bool sorted;
-            for (int i = 0; i < dio.Length - 1; i++)
+            for (int i = 0; i < bestGen.Length - 1; i++)
             {
                 sorted = true;
-                for (int j = dio.Length - 1; j > i; j--)
+                for (int j = bestGen.Length - 1; j > i; j--)
                 {
                    
-                    if (dio[j] < dio[j - 1])
+                    if (bestGen[j] < bestGen[j - 1])
                     {
-                        double temp = dio[j - 1];
+                        double temp = bestGen[j - 1];
                         char[] tempChar = chromosomes[j - 1];
-                        dio[j - 1] = dio[j];
+                        bestGen[j - 1] = bestGen[j];
                         chromosomes[j - 1] = chromosomes[j];
-                        dio[j] = temp;
+                        bestGen[j] = temp;
                         chromosomes[j] = tempChar;
                         sorted = false;
                     }
@@ -101,7 +192,7 @@ namespace Lab1
                 if (sorted)
                     break;
             }           
-           Array.Reverse(dio);
+           Array.Reverse(bestGen);
             chromosomes.Reverse();
         }
      
@@ -126,7 +217,7 @@ namespace Lab1
 
         private string SubstitutionCipher(char[] StrangeText, char[] chromosome)
         {
-            var TempDecript = CharDecrypt;
+            var TempDecript = new char[CharContext.Length];
             for (int i = 0; i < StrangeText.Length; i++)
             {
                 var letter = StrangeText[i];
@@ -139,7 +230,7 @@ namespace Lab1
 
         private List<char[]> GenerateStartPopulation(int numberOfStart)
         {
-            var ChromosomeSet = new List<char[]>();          
+            var ChromosomeSet = new List<char[]>();        
            
             Random random = new Random();
             for (int i = 0; i < numberOfStart; i++)

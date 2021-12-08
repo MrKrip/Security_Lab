@@ -16,7 +16,7 @@ namespace Lab1
             string path = @"D:\security\Security_Lab_1\Lab1\cipher\";                
           
 
-            string Context = File.ReadAllText(path + "Lab1_3.txt");
+            string Context = File.ReadAllText(path + "Lab1_4.txt");
             Lab1 lab1 = new Lab1();
            // lab1.Lab1_2(Context);
             //lab1.Lab1_3(Context);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lab1.cipher;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -93,7 +94,12 @@ namespace Lab1
         }
         internal void lab_4(string context)
         {
-            IndexOfCoincidence(context);
+            //IndexOfCoincidence(context);
+            Genetic2_0 genAlgorithm = new Genetic2_0(context, 4);
+            genAlgorithm.getTrigram();
+            genAlgorithm.GeneticDecrypt();
+
+
         }
 
 

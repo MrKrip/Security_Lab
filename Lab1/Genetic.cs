@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab1
 {
-    class Genetic
+    public class Genetic
     {
         static private char[] CryptoLetters=
        {
@@ -101,6 +101,9 @@ namespace Lab1
                 {
                     var mutateGen1 = RandGen(chromosome);                    
                     var mutateGen2 = RandGen(chromosome);
+                    if (mutateGen1 == mutateGen2) {
+                        mutateGen2++;
+                    }
                  
                     (chromosome[mutateGen1], chromosome[mutateGen2]) = (chromosome[mutateGen2], chromosome[mutateGen1]);
                 }
@@ -110,8 +113,7 @@ namespace Lab1
         private int RandGen(char[] chromosome)
         {
             Random random = new Random();
-            var rnd = random.Next(lettersCount);
-            var mutateGen = random.Next(rnd);
+            var mutateGen = random.Next(0,lettersCount-1);
             return mutateGen;
         }
 
@@ -120,12 +122,12 @@ namespace Lab1
             Random random = new Random();
            
             var children = new List<char[]>();
-            for (var i = 1; i <= chromosomes.Count; i++)
+            for (var i = 0; i < chromosomes.Count; i++)
             {
                 for (int j = 0; j < 100; j++) //special place
                 {
-                    var Mother = chromosomes[j];
-                    var Father = chromosomes[random.Next(chromosomes.Count)];
+                    var Mother = chromosomes[i];
+                    var Father = chromosomes[j];
                     var child = new char[Mother.Length];
                     var gens = CryptoLetters.ToList();
                     bool queue = true;

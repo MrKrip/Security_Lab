@@ -19,7 +19,8 @@ namespace Lab1
             string Context = File.ReadAllText(path + "Lab1_3.txt");
             Lab1 lab1 = new Lab1();
            // lab1.Lab1_2(Context);
-            lab1.Lab1_3(Context);
+            //lab1.Lab1_3(Context);
+            lab1.lab_4(Context);
         }
     }
 }

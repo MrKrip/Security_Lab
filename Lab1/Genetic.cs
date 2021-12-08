@@ -20,7 +20,7 @@ namespace Lab1
         private Dictionary<string, double> trigramDictionary = new Dictionary<string, double>();
         private char[] CharContext;
         private string CharDecrypt;
-        private int mutationProbability = 20;
+        private int mutationProbability = 80;
 
 
 
@@ -58,20 +58,36 @@ namespace Lab1
             var chromosomes = GenerateStartPopulation(1000);
             double bestIndividual;
             char[] bestish = new char[lettersCount];
-            while (generation < 100) {
+            while (generation < 30) {
                 chromosomes = OneHundredBestChromosomes(chromosomes);
                 bestish = chromosomes[0];
                 bestIndividual = FitnesFunction(bestish);
                 CharDecrypt = SubstitutionCipher(CharContext, bestish);
-                Console.WriteLine($"\nEncriptionKey: { new string(bestish)}\nGeneration: {generation} - BestIndividual: {bestIndividual}");
-                Console.WriteLine(CharDecrypt);
+                Console.WriteLine($"\nOriginal:{ new string(CryptoLetters)}\nEncriptionKey: { new string(bestish)}\nGeneration: {generation} - BestIndividual: {bestIndividual}");                
                 Crossover(ref chromosomes);
                 Mutation(ref chromosomes);                
                 generation++;
                 
             }
+           
+           // var res = helper(bestish);
+            
             return CharDecrypt;
 
+        }
+
+        private string helper(char[] bestish)
+        {
+            string a = new string(bestish);
+            a = Swap(a, 'K', 'I');
+            var res = a.ToArray();
+            a = new String(res);
+            return SubstitutionCipher(CharContext, res);
+        }
+
+        private string Swap(string s, char a, char b)
+        {
+            return new string(s.Select(ch => (ch == a) ? b : (ch == b) ? a : ch).ToArray());
         }
 
         private void Mutation(ref List<char[]> chromosomes)
@@ -85,6 +101,7 @@ namespace Lab1
                 {
                     var mutateGen1 = RandGen(chromosome);                    
                     var mutateGen2 = RandGen(chromosome);
+                 
                     (chromosome[mutateGen1], chromosome[mutateGen2]) = (chromosome[mutateGen2], chromosome[mutateGen1]);
                 }
             }
@@ -93,7 +110,7 @@ namespace Lab1
         private int RandGen(char[] chromosome)
         {
             Random random = new Random();
-            var rnd = random.Next(chromosome.Length);
+            var rnd = random.Next(lettersCount);
             var mutateGen = random.Next(rnd);
             return mutateGen;
         }
@@ -105,7 +122,7 @@ namespace Lab1
             var children = new List<char[]>();
             for (var i = 1; i <= chromosomes.Count; i++)
             {
-                for (int j = 0; j < 100; j++)
+                for (int j = 0; j < 100; j++) //special place
                 {
                     var Mother = chromosomes[j];
                     var Father = chromosomes[random.Next(chromosomes.Count)];
@@ -204,7 +221,7 @@ namespace Lab1
             for (int i = 0; i < decryptionOption.Length - 2; i++)
             {
                 var threeLetters = decryptionOption.Substring(i, 3);
-                if (trigramDictionary.ContainsKey(threeLetters))                {
+                if (trigramDictionary.ContainsKey(threeLetters)) {
                     percent += trigramDictionary[threeLetters];
                 }
             }

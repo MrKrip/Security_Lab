@@ -44,6 +44,8 @@ namespace Lab1
             }
         }
 
+       
+
         public void Lab1_2(string Context)
         {            
             var base64EncodedBytes = Convert.FromBase64String(Context);
@@ -87,7 +89,15 @@ namespace Lab1
             Genetic genAlgorithm = new Genetic(Context);
             genAlgorithm.getTrigram();
             string answer = genAlgorithm.GeneticDecrypt();
+            Console.WriteLine(answer);
         }
+        internal void lab_4(string context)
+        {
+            IndexOfCoincidence(context);
+        }
+
+
+
 
 
         private void IndexOfCoincidence(string Text)
@@ -110,20 +120,12 @@ namespace Lab1
                 }               
                 ListKeys.Add(i);
                 ListCoinc.Add(CoincidenceCount / temp.Length);
-               Console.WriteLine($"{ListKeys[i] + 1} => {ListCoinc[i]}");
+               //Console.WriteLine($"{ListKeys[i] + 1} => {ListCoinc[i]}");
             }
                   
             for (var j = 1; j < ListCoinc.Count; j++)
-            {
-                CoincidenceCount = 0;
-                for (var i = 1; i < ListKeys.Count; i++)
-                {
-                    if (i % ListKeys[j] == 0)
-                    {
-                        CoincidenceCount += ListCoinc[j];
-                    }
-                }
-                if ((CoincidenceCount / ((double)ListCoinc.Count / ListKeys[j])) >= 0.06)
+            {               
+                if (ListCoinc[j] >= 0.06)
                 {
                     BetterKey.Add(ListKeys[j]);
                 }                

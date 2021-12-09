@@ -28,15 +28,15 @@ namespace Lab4
             var BcryptHashes = new List<string>();
             foreach (var pas in AllPasswords)
             {
-                //sha1Hashes.Add((Make_sha_1.GetHash(pas)));
-                //md5Hashes.Add(Make_md5.GetHash(pas));
-                BcryptHashes.Add(BCrypt.Net.BCrypt.HashPassword(pas, 12));              
+               sha1Hashes.Add((Make_sha_1.GetHash(pas)));
+                md5Hashes.Add(Make_md5.GetHash(pas));
+               // BcryptHashes.Add(BCrypt.Net.BCrypt.HashPassword(pas, 12));              
                 
             }
             File.WriteAllLines("passwords.csv", AllPasswords);
             File.WriteAllLines("sha1hash.csv", sha1Hashes);
             File.WriteAllLines("md5hash.csv", md5Hashes);
-            File.WriteAllLines("BCrypthash.csv", md5Hashes);
+           // File.WriteAllLines("BCrypthash.csv", md5Hashes);
 
         }       
 

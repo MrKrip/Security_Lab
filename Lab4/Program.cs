@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Lab4
 {
@@ -8,11 +11,35 @@ namespace Lab4
         {
             ReadPassStatisitic RPS25 = new ReadPassStatisitic("D:\\security\\Security_Lab_1\\Lab4\\Document\\25passwords.txt");
             ReadPassStatisitic RPSmany = new ReadPassStatisitic("D:\\security\\Security_Lab_1\\Lab4\\Document\\10-million-password-list-top-100000.txt");
-            SuperRandomMegaPasswordGeneratorEver SRMPGE = new SuperRandomMegaPasswordGeneratorEver();
-            
-            HumanLikePassword HLP = new HumanLikePassword();            
-            HLP.GeneratePass(20);
+            SuperRandomMegaPasswordGeneratorEver SRMPGE = new SuperRandomMegaPasswordGeneratorEver();            
+            HumanLikePassword HLP = new HumanLikePassword();
 
-        }
+            List<string> allPasswords= new List<string>();
+
+            allPasswords.AddRange(RPS25.GeneratePass(10000));
+            allPasswords.AddRange(RPSmany.GeneratePass(75000));
+            allPasswords.AddRange(SRMPGE.GeneratePass(5000));
+            allPasswords.AddRange(HLP.GeneratePass(10000));
+
+            var random = new Random();
+            List<string> AllPasswords = allPasswords.OrderBy(x => random.Next()).ToList();
+
+           
+            var sha1Hashes = new List<string>();
+            var md5Hashes = new List<string>();
+            foreach (var pas in AllPasswords)
+            {
+                sha1Hashes.Add((Make_sha_1.GetHash(pas)));
+                md5Hashes.Add(Make_md5.GetHash(pas));
+            }
+
+            File.WriteAllLines("passwords.csv", AllPasswords);
+            File.WriteAllLines("sha1hash.csv", sha1Hashes);
+            File.WriteAllLines("md5hash.csv", md5Hashes);
+
+        }       
+
     }
+
+   
 }

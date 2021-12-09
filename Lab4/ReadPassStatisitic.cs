@@ -29,7 +29,7 @@ namespace Lab4
                 GeneratedPasswords.Add(passwordsList[random.Next(25)]);
             }
 
-            return passwordsList;
+            return GeneratedPasswords;
         }       
     }
 }

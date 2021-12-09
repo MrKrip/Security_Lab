@@ -7,7 +7,7 @@ namespace Lab3
         static void Main(string[] args)
         {
             Lab3 huinya = new Lab3();
-            huinya.LcgHack();
+            huinya.MtHack();
         }
     }
 }

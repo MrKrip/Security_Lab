@@ -18,11 +18,9 @@ namespace Lab3
                 temp[i] = lcg.Next();
             }
             BigInteger a1 = temp[0] - temp[1];
-            bool check = false;
             if (a1 < 0)
             {
                 a1 = -a1;
-                check = true;
             }
 
             BigInteger inverse_a1 = ModInverse(a1, Lcg.m);
@@ -34,9 +32,11 @@ namespace Lab3
             if (a_second < 0)
                 a_second = -a_second;
             a_second = Lcg.m - a_second;
+
             Console.WriteLine("First a " + a_first);
             Console.WriteLine("Second a " + a_second);
-            if (temp[2] - temp[1] * a_first<0)
+
+            if (temp[2] - temp[1] * a_first < 0)
                 a_first = -a_first;
             if (temp[2] - temp[1] * a_second < 0)
                 a_second = -a_second;
@@ -53,12 +53,14 @@ namespace Lab3
                 next1 = -next1;
             if (next2 < 0)
                 next2 = -next2;
-            Console.WriteLine(new string('-',30));
+            Console.WriteLine(new string('-', 30));
+
             Console.WriteLine("First next " + next1);
             Console.WriteLine("Second next " + next2);
             Console.WriteLine(new string('-', 30));
+
             BigInteger next = lcg.Next();
-            Console.WriteLine("Next rand "+next);
+            Console.WriteLine("Next rand " + next);
         }
 
         private BigInteger ModInverse(BigInteger n, BigInteger m)
@@ -78,6 +80,22 @@ namespace Lab3
 
             return x < 0 ? x + m0 : x;
 
+        }
+
+
+        public Mt MtHack()
+        {
+            Mt HackMt = default(Mt);
+            Mt Generator = new Mt((ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+            List<ulong> History = new List<ulong>();
+            for (int i = 0; i < 624; i++)
+            {
+                History.Add(Generator.ExtractNumber());
+            }
+            List<ulong> used = new List<ulong>();
+            
+
+            return HackMt;
         }
     }
 }

@@ -60,7 +60,7 @@ namespace Lab1.cipher
             var chromosomes = GenerateStartPopulation(1000);
             double bestIndividual;
             List<char[]> bestish = new List<char[]>();
-            while (generation < 300)
+            while (generation < 1000)
             {
                 chromosomes = OneHundredBestChromosomes(chromosomes);
                 bestish = chromosomes[0];
@@ -116,7 +116,7 @@ namespace Lab1.cipher
             
             for (var i = 0; i < chromosomes.Count; i++)
             {
-                for (int j = 0; j < 50; j++) //special place
+                for (int j = 1; j < 100; j++) //special place
                 {
                     var fourChlidren = new List<char[]>();
                     for (int l = 0; l < KeyCount; l++)
@@ -257,22 +257,7 @@ namespace Lab1.cipher
             }
             return PackChromosomeSet;
         }
-        private List<List<char[]>> GenerateStartPopulation2()
-        {
-            var PackChromosomeSet = new List<List<char[]>>();
-            var ChromosomeSet = new List<char[]>();
-            string ab = "TUEIJYSPBCAOHFKNDLMZRGQWXV";
-            ChromosomeSet.Add(ab.ToCharArray());
-            ab = "YQBJEUNIDPXLWTMRSHOKZCAGVF";
-            ChromosomeSet.Add(ab.ToCharArray());
-            ab = "QOFPASKZHNLTJUIXCDYRGEWBMV";
-            ChromosomeSet.Add(ab.ToCharArray());
-            ab = "JLGONRPKCBIHDTUEFSQYXAZVMW";
-            ChromosomeSet.Add(ab.ToCharArray());
-            PackChromosomeSet.Add(ChromosomeSet);
-            return PackChromosomeSet;
-
-        }
+       
 
             private string SubstitutionCipher(char[] StrangeText, List<char[]> BigChromosome)
         {

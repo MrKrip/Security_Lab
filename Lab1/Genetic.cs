@@ -127,7 +127,7 @@ namespace Lab1
                 for (int j = 0; j < 100; j++) //special place
                 {
                     var Mother = chromosomes[i];
-                    var Father = chromosomes[j];
+                    var Father = chromosomes[random.Next(0, 99)];
                     var child = new char[Mother.Length];
                     var gens = CryptoLetters.ToList();
                     bool queue = true;

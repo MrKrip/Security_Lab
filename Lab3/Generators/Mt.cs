@@ -26,7 +26,7 @@ namespace Lab3
 
         private uint index;
 
-        private ulong[] mt = new ulong[N];
+        public ulong[] mt = new ulong[N];
 
         public Mt(ulong seed)
         {

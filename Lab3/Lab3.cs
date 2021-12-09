@@ -9,7 +9,7 @@ namespace Lab3
 {
     class Lab3
     {
-        public void LcgHack()
+        public LcgCracker LcgHack()
         {
             Lcg lcg = new Lcg(1103515245, 12345, 54321);//1103515245
             BigInteger[] temp = new BigInteger[3];
@@ -61,6 +61,16 @@ namespace Lab3
 
             BigInteger next = lcg.Next();
             Console.WriteLine("Next rand " + next);
+            LcgCracker cracked;
+            if (next == next1)
+            {
+                cracked = new LcgCracker(a_first, c_second, next);
+            }
+            else
+            {
+                cracked = new LcgCracker(a_second, c_first, next);
+            }
+            return cracked;
         }
 
         private BigInteger ModInverse(BigInteger n, BigInteger m)
@@ -83,9 +93,8 @@ namespace Lab3
         }
 
 
-        public Mt MtHack()
+        public MtCracker MtHack()
         {
-            Mt HackMt = default(Mt);
             Mt Generator = new Mt((ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
             List<ulong> History = new List<ulong>();
             for (int i = 0; i < 624; i++)
@@ -93,9 +102,27 @@ namespace Lab3
                 History.Add(Generator.ExtractNumber());
             }
             List<ulong> used = new List<ulong>();
-            
+            for (int i = 0; i < Mt.N; i++)
+            {
+                var y = History[i];
+                y ^= (y >> Mt.L);
+                y ^= (y << Mt.T) & Mt.C;
+                y ^= (y << Mt.S) & Mt.B;
+                y ^= (y >> Mt.U);
+                used.Add(y);
+            }
+            int kek = 0;
+            for (int i = 0; i < Mt.N; i++)
+            {
+                if (used[i] == Generator.mt[i])
+                    kek++;
+            }
+            Console.WriteLine(kek);
+            MtCracker cracked = new MtCracker(used.ToArray(), 624);
 
-            return HackMt;
+            Console.WriteLine($"Cracked : {cracked.Next()}");
+            Console.WriteLine($"Generator : {Generator.ExtractNumber()}");
+            return cracked;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+
 namespace Lab4
 {
     class Program
@@ -15,27 +16,27 @@ namespace Lab4
             HumanLikePassword HLP = new HumanLikePassword();
 
             List<string> allPasswords= new List<string>();
-
             allPasswords.AddRange(RPS25.GeneratePass(10000));
             allPasswords.AddRange(RPSmany.GeneratePass(75000));
             allPasswords.AddRange(SRMPGE.GeneratePass(5000));
             allPasswords.AddRange(HLP.GeneratePass(10000));
 
             var random = new Random();
-            List<string> AllPasswords = allPasswords.OrderBy(x => random.Next()).ToList();
-
-           
+            List<string> AllPasswords = allPasswords.OrderBy(x => random.Next()).ToList();           
             var sha1Hashes = new List<string>();
             var md5Hashes = new List<string>();
+            var BcryptHashes = new List<string>();
             foreach (var pas in AllPasswords)
             {
-                sha1Hashes.Add((Make_sha_1.GetHash(pas)));
-                md5Hashes.Add(Make_md5.GetHash(pas));
+                //sha1Hashes.Add((Make_sha_1.GetHash(pas)));
+                //md5Hashes.Add(Make_md5.GetHash(pas));
+                BcryptHashes.Add(BCrypt.Net.BCrypt.HashPassword(pas, 12));              
+                
             }
-
             File.WriteAllLines("passwords.csv", AllPasswords);
             File.WriteAllLines("sha1hash.csv", sha1Hashes);
             File.WriteAllLines("md5hash.csv", md5Hashes);
+            File.WriteAllLines("BCrypthash.csv", md5Hashes);
 
         }       
 

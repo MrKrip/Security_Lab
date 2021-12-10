@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Lab3
@@ -18,20 +15,10 @@ namespace Lab3
                 temp[i] = await client.Play(123456789, 1, 1, "Lcg");
             }
             long a1 = temp[0] - temp[1];
-            bool check = false;
-            if (a1 < 0)
-            {
-                a1 = -a1;
-                check = true;
-            }
 
             long inverse_a1 = ModInverse(a1, Lcg.m);
             long a2 = temp[1] - temp[2];
             long a = (inverse_a1 * a2) % Lcg.m;
-            if (check)
-            {
-                a = -a;
-            }
 
             Console.WriteLine("A :" + a);
 

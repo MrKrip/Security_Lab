@@ -9,19 +9,19 @@ namespace Lab3
 {
     class Lcg
     {
-        private BigInteger a;
-        private BigInteger c;
-        public static readonly BigInteger m = 4294967296;
-        private BigInteger _last;
+        private long a;
+        private long c;
+        public const long m = 4294967296;
+        private long _last;
 
-        public Lcg(BigInteger a,BigInteger c,BigInteger seed)
+        public Lcg(long a, long c, long seed)
         {
             this.a = a;
             this.c = c;
             _last = seed;
         }
 
-        public BigInteger Next()
+        public long Next()
         {
             _last = (a * _last + c) % m;
             return _last;

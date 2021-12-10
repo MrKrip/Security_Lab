@@ -26,9 +26,9 @@ namespace Lab3
 
         private uint index;
 
-        public ulong[] mt = new ulong[N];
+        public long[] mt = new long[N];
 
-        public Mt(ulong seed)
+        public Mt(long seed)
         {
             unchecked
             {
@@ -38,7 +38,7 @@ namespace Lab3
             Init(seed);
         }
 
-        public void Init(ulong seed)
+        public void Init(long seed)
         {
             mt[0] = seed;
             for (index = 1; index < N; index++)
@@ -47,14 +47,14 @@ namespace Lab3
             }
         }
 
-        public ulong ExtractNumber()
+        public long ExtractNumber()
         {
             if (index >= N)
             {
                 for (int i = 0; i < N; i++)
                 {
-                    ulong x = ((mt[i] & (ulong)Upper_Mask) | (mt[(i + 1) % N] & (ulong)Lower_Mask));
-                    ulong xA = x >> 1;
+                    long x = ((mt[i] & Upper_Mask) | (mt[(i + 1) % N] & Lower_Mask));
+                    long xA = x >> 1;
                     if ((x % 2) != 0)
                     {
                         xA = xA ^ A;
@@ -63,7 +63,7 @@ namespace Lab3
                 }
                 index = 0;
             }
-            ulong y = mt[index];
+            long y = mt[index];
             y ^= (y >> U);
             y ^= (y << S) & B;
             y ^= (y << T) & C;

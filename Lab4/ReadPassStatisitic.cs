@@ -26,7 +26,7 @@ namespace Lab4
 
             for (int i = 0; i < Count; i++)
             {
-                GeneratedPasswords.Add(passwordsList[random.Next(25)]);
+                GeneratedPasswords.Add(passwordsList[random.Next(passwordsList.Count)]);
             }
 
             return GeneratedPasswords;

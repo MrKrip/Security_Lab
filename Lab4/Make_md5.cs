@@ -10,8 +10,14 @@ namespace Lab4
         public static string GetHash(string input)
         {
             var md5 = MD5.Create();
-            var ByteHash = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
-            string hash = Convert.ToBase64String(ByteHash);
+            byte[] data = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
+            StringBuilder sBuilder = new StringBuilder();
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+
+            string hash = sBuilder.ToString();
 
             return hash;
         }

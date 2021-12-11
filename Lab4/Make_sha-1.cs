@@ -17,18 +17,28 @@ namespace Lab4
            
             HashAlgorithm algorithm = new SHA256Managed();
             byte[] passwordWithSaltBytes =new byte[sourceBytes.Length + salt.Length];
+            byte[] passwordWithSaltBytesOut = new byte[sourceBytes.Length];
+
+       
 
             for (int i = 0; i < sourceBytes.Length; i++)
             {
                 passwordWithSaltBytes[i] = sourceBytes[i];
             }
+            for (int i = 0; i < sourceBytes.Length; i++)
+            {
+                passwordWithSaltBytesOut[i] = sourceBytes[i];
+            }
+           
+            string result = BitConverter.ToString(passwordWithSaltBytesOut).Replace("-", string.Empty);
             for (int i = 0; i < salt.Length; i++)
             {
                 passwordWithSaltBytes[sourceBytes.Length + i] = salt[i];
 
-            }          
-            return BitConverter.ToString(passwordWithSaltBytes).Replace("-", string.Empty);
-        }
+            }
+            result = result + ";" +BitConverter.ToString(passwordWithSaltBytes).Replace("-", string.Empty);
+            return result;
+        }      
 
         static private byte[] GenerateSaltBites()
         {
@@ -38,6 +48,8 @@ namespace Lab4
             return length;
         }
 
+
+        
 
     }
 }

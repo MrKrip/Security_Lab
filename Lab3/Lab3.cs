@@ -31,7 +31,7 @@ namespace Lab3
             var Bet = await client.Play(123456789, 1, next, "Lcg");
             if(Bet!=next)
             {
-                await LcgHack();
+                cracked = await LcgHack();
             }
             return cracked;
         }

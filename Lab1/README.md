@@ -2,34 +2,33 @@
  
 ## 1
 
-Для початку перевели бітову послідовність у ASCII, скориставшись стороннім сайтом.(На цей процес у нас пішов місяць бо ми намагалися найпереше завдання росшифрувати через XOR і ми ненавидим себе за це).
+Р”Р»СЏ РїРѕС‡Р°С‚РєСѓ РїРµСЂРµРІРµР»Рё Р±С–С‚РѕРІСѓ РїРѕСЃР»С–РґРѕРІРЅС–СЃС‚СЊ Сѓ ASCII, СЃРєРѕСЂРёСЃС‚Р°РІС€РёСЃСЊ СЃС‚РѕСЂРѕРЅРЅС–Рј СЃР°Р№С‚РѕРј.(РќР° С†РµР№ РїСЂРѕС†РµСЃ Сѓ РЅР°СЃ РїС–С€РѕРІ РјС–СЃСЏС†СЊ Р±Рѕ РјРё РЅР°РјР°РіР°Р»РёСЃСЏ РЅР°Р№РїРµСЂРµС€Рµ Р·Р°РІРґР°РЅРЅСЏ СЂРѕСЃС€РёС„СЂСѓРІР°С‚Рё С‡РµСЂРµР· XOR С– РјРё РЅРµРЅР°РІРёРґРёРј СЃРµР±Рµ Р·Р° С†Рµ).
 
 ## 2
 
-Далі для першого завдання ми перевели hex у ASCII а потім використали XORDecoder та використавши регулярний вираз знайшли наш текст
-Отримали наступний текст:
-Now try a repeating-key XOR cipher. E.g. it should take a string ???hello world??? and, given the key is ???key???, xor the first letter ???h??? with ???k???, then xor ???e??? with ???e???, then ???l??? with ???y???, and then xor next char ???l??? with ???k??? again, then ???o??? with ???e??? and so on. You may use an index of coincidence, Hamming distance, Kasiski examination, statistical tests or whatever method you feel would show the best result.(замість ??? ларки)
+Р”Р°Р»С– РґР»СЏ РїРµСЂС€РѕРіРѕ Р·Р°РІРґР°РЅРЅСЏ РјРё РїРµСЂРµРІРµР»Рё hex Сѓ ASCII Р° РїРѕС‚С–Рј РІРёРєРѕСЂРёСЃС‚Р°Р»Рё XORDecoder С‚Р° РІРёРєРѕСЂРёСЃС‚Р°РІС€Рё СЂРµРіСѓР»СЏСЂРЅРёР№ РІРёСЂР°Р· Р·РЅР°Р№С€Р»Рё РЅР°С€ С‚РµРєСЃС‚
+РћС‚СЂРёРјР°Р»Рё РЅР°СЃС‚СѓРїРЅРёР№ С‚РµРєСЃС‚:
+Now try a repeating-key XOR cipher. E.g. it should take a string ???hello world??? and, given the key is ???key???, xor the first letter ???h??? with ???k???, then xor ???e??? with ???e???, then ???l??? with ???y???, and then xor next char ???l??? with ???k??? again, then ???o??? with ???e??? and so on. You may use an index of coincidence, Hamming distance, Kasiski examination, statistical tests or whatever method you feel would show the best result.(Р·Р°РјС–СЃС‚СЊ ??? Р»Р°СЂРєРё)
 
 ## 3
 
-Спочатку знову переводимо текст із BASE64 та переводимо у UTF8. Потім знаходимо індекс співпадіння з чого ми узнали що довжина ключа 3 порівнявши із стандартним індексом англійської мови. Далі вираховуємо ключ та розшифровуємо.
-Отриманий кключ: L0l 
-Текст: Write a code to attack some simpLe substitution cipher. To reduce the compLexity of this one we wiLl use onLy uppercfse letters, so the keyspace is only 26! To get this one right futomaticflly you wilL probfbly need to use some sort of genetic aLgorithm (which worked the best lfst yefr), simuLated fnnealing or grfdient descent. Seriously, write it right now, you wilL need it to decipher the next one as well. Bear in mind, there's no spaces.
+РЎРїРѕС‡Р°С‚РєСѓ Р·РЅРѕРІСѓ РїРµСЂРµРІРѕРґРёРјРѕ С‚РµРєСЃС‚ С–Р· BASE64 С‚Р° РїРµСЂРµРІРѕРґРёРјРѕ Сѓ UTF8. РџРѕС‚С–Рј Р·РЅР°С…РѕРґРёРјРѕ С–РЅРґРµРєСЃ СЃРїС–РІРїР°РґС–РЅРЅСЏ Р· С‡РѕРіРѕ РјРё СѓР·РЅР°Р»Рё С‰Рѕ РґРѕРІР¶РёРЅР° РєР»СЋС‡Р° 3 РїРѕСЂС–РІРЅСЏРІС€Рё С–Р· СЃС‚Р°РЅРґР°СЂС‚РЅРёРј С–РЅРґРµРєСЃРѕРј Р°РЅРіР»С–Р№СЃСЊРєРѕС— РјРѕРІРё. Р”Р°Р»С– РІРёСЂР°С…РѕРІСѓС”РјРѕ РєР»СЋС‡ С‚Р° СЂРѕР·С€РёС„СЂРѕРІСѓС”РјРѕ.
+РћС‚СЂРёРјР°РЅРёР№ РєРєР»СЋС‡: L0l 
+РўРµРєСЃС‚: Write a code to attack some simpLe substitution cipher. To reduce the compLexity of this one we wiLl use onLy uppercfse letters, so the keyspace is only 26! To get this one right futomaticflly you wilL probfbly need to use some sort of genetic aLgorithm (which worked the best lfst yefr), simuLated fnnealing or grfdient descent. Seriously, write it right now, you wilL need it to decipher the next one as well. Bear in mind, there's no spaces.
  
 ## 4
 
-Наступне завдання потребує написання генетичного алгоритму. Початкова популяція в нас 1000. Вибираємо 100 використовуючи до них фітнес в якій ми їх розшифровуємо та порівнюємо з данними із триграми та сортируємо.Далі при схрещуванні отримаємо нащадків у 10000 до яких використовуємо мутацію з визначним віцотком і повторюємо фіксованою кількістю разів.
-Текст: ADDTHEABILITYTODECIPHERANYKINDOFPOLYALPHABETICSUBSTITUTIONCIPHERSTHEONEUSEDINTHECIPHERTEXTSHEREHASTWENTYSIXINDEPENDENTRANDOMLYCHOSENMONOALPHABETICSUBSTITUTIONPATTERNSFOREACHLETTERFROMENGLISHALPHABETITISCLEARTHATYOUCANNOLONGERRELYONTHESAMESIMPLEROUTINEOFGUESSINGTHEKEYBYEXHAUSTIVESEARCHWHICHYOUPROBABLYUSEDTODECIPHERTHEPREVIOUSPARAGRAPHWILLTHEINDEXOFCOINCIDENCESTILLWORKASASUGGESTIONYOUCANTRYTODIVIDETHEMESSAGEINPARTSBYTHENUMBEROFCHARACTERSINAKEYANDAPPLYFREQUENCYANALYSISTOEACHOFTHEMCANYOUFINDAWAYTOUSEHIGHERORDERFREQUENCYSTATISTICSWITHTHISTYPEOFCIPHERTHENEXTMAGICALWORDWILLTAKETOTHENEXTLABENJOYBITLYSLASHTWOCAPITALYCAPITALJCAPITALBLCAPITALYCAPITALL
+РќР°СЃС‚СѓРїРЅРµ Р·Р°РІРґР°РЅРЅСЏ РїРѕС‚СЂРµР±СѓС” РЅР°РїРёСЃР°РЅРЅСЏ РіРµРЅРµС‚РёС‡РЅРѕРіРѕ Р°Р»РіРѕСЂРёС‚РјСѓ. РџРѕС‡Р°С‚РєРѕРІР° РїРѕРїСѓР»СЏС†С–СЏ РІ РЅР°СЃ 1000. Р’РёР±РёСЂР°С”РјРѕ 100 РІРёРєРѕСЂРёСЃС‚РѕРІСѓСЋС‡Рё РґРѕ РЅРёС… С„С–С‚РЅРµСЃ РІ СЏРєС–Р№ РјРё С—С… СЂРѕР·С€РёС„СЂРѕРІСѓС”РјРѕ С‚Р° РїРѕСЂС–РІРЅСЋС”РјРѕ Р· РґР°РЅРЅРёРјРё С–Р· С‚СЂРёРіСЂР°РјРё С‚Р° СЃРѕСЂС‚РёСЂСѓС”РјРѕ.Р”Р°Р»С– РїСЂРё СЃС…СЂРµС‰СѓРІР°РЅРЅС– РѕС‚СЂРёРјР°С”РјРѕ РЅР°С‰Р°РґРєС–РІ Сѓ 10000 РґРѕ СЏРєРёС… РІРёРєРѕСЂРёСЃС‚РѕРІСѓС”РјРѕ РјСѓС‚Р°С†С–СЋ Р· РІРёР·РЅР°С‡РЅРёРј РІС–С†РѕС‚РєРѕРј С– РїРѕРІС‚РѕСЂСЋС”РјРѕ С„С–РєСЃРѕРІР°РЅРѕСЋ РєС–Р»СЊРєС–СЃС‚СЋ СЂР°Р·С–РІ.
+РўРµРєСЃС‚: ADDTHEABILITYTODECIPHERANYKINDOFPOLYALPHABETICSUBSTITUTIONCIPHERSTHEONEUSEDINTHECIPHERTEXTSHEREHASTWENTYSIXINDEPENDENTRANDOMLYCHOSENMONOALPHABETICSUBSTITUTIONPATTERNSFOREACHLETTERFROMENGLISHALPHABETITISCLEARTHATYOUCANNOLONGERRELYONTHESAMESIMPLEROUTINEOFGUESSINGTHEKEYBYEXHAUSTIVESEARCHWHICHYOUPROBABLYUSEDTODECIPHERTHEPREVIOUSPARAGRAPHWILLTHEINDEXOFCOINCIDENCESTILLWORKASASUGGESTIONYOUCANTRYTODIVIDETHEMESSAGEINPARTSBYTHENUMBEROFCHARACTERSINAKEYANDAPPLYFREQUENCYANALYSISTOEACHOFTHEMCANYOUFINDAWAYTOUSEHIGHERORDERFREQUENCYSTATISTICSWITHTHISTYPEOFCIPHERTHENEXTMAGICALWORDWILLTAKETOTHENEXTLABENJOYBITLYSLASHTWOCAPITALYCAPITALJCAPITALBLCAPITALYCAPITALL
 
 ## 5
 
-Це завдання схоже на ппоперднє але воно потребувало переписати генетичний алгоритм змінючи хромосоми на N кількість  алфавітів в одному ключі. Для початку ми використали перерахунок частот.
+Р¦Рµ Р·Р°РІРґР°РЅРЅСЏ СЃС…РѕР¶Рµ РЅР° РїРїРѕРїРµСЂРґРЅС” Р°Р»Рµ РІРѕРЅРѕ РїРѕС‚СЂРµР±СѓРІР°Р»Рѕ РїРµСЂРµРїРёСЃР°С‚Рё РіРµРЅРµС‚РёС‡РЅРёР№ Р°Р»РіРѕСЂРёС‚Рј Р·РјС–РЅСЋС‡Рё С…СЂРѕРјРѕСЃРѕРјРё РЅР° N РєС–Р»СЊРєС–СЃС‚СЊ  Р°Р»С„Р°РІС–С‚С–РІ РІ РѕРґРЅРѕРјСѓ РєР»СЋС‡С–. Р”Р»СЏ РїРѕС‡Р°С‚РєСѓ РјРё РІРёРєРѕСЂРёСЃС‚Р°Р»Рё РїРµСЂРµСЂР°С…СѓРЅРѕРє С‡Р°СЃС‚РѕС‚.
 
 ![sec](DOCA/tempsnip.png)
 
-Можемо побачити закономірність що кількість алфавітів які підійдуть для нашої мови кратна 4. 
-Уся логіка таж сама за винятком дешифрування.
-Найкращий отриманий результат:
+РњРѕР¶РµРјРѕ РїРѕР±Р°С‡РёС‚Рё Р·Р°РєРѕРЅРѕРјС–СЂРЅС–СЃС‚СЊ С‰Рѕ РєС–Р»СЊРєС–СЃС‚СЊ Р°Р»С„Р°РІС–С‚С–РІ СЏРєС– РїС–РґС–Р№РґСѓС‚СЊ РґР»СЏ РЅР°С€РѕС— РјРѕРІРё РєСЂР°С‚РЅР° 4. 
+РЈСЃСЏ Р»РѕРіС–РєР° С‚Р°Р¶ СЃР°РјР° Р·Р° РІРёРЅСЏС‚РєРѕРј РґРµС€РёС„СЂСѓРІР°РЅРЅСЏ.
+РќР°Р№РєСЂР°С‰РёР№ РѕС‚СЂРёРјР°РЅРёР№ СЂРµР·СѓР»СЊС‚Р°С‚:
 
 ![sec](DOCA/2.PNG)
-

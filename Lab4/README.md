@@ -9,28 +9,40 @@ Bcrypt був згенерований за допомогою бібліотеки BCrypt.Net
 ## Second task
 Ми маємо 2 файли на вході - md5 ,без солі та bcrypt з сіллю
 Bcrypt
+
 ![firs](doca/firsdoc.PNG)
+
 md5 
 ![sec](doca/seconddoc.PNG)
+
 Для злому була вибранна утылыта "hashcat",вона швидка та передова для відновлення паролів, що підтримує п'ять унікальних режимів атаки для більш ніж трьохсот алгоритмів хешування.
 Взламаємо weakHash.csv через brute-force
 hashcat.exe -a 3 -m 0 --force weakHash.csv
+
 ![sec](doca/2.PNG)
+
 Приблизно за 1 години ми змогли взламати 45301 з 70087 при цьому ми перебрали 2447548809216 паролей.
 ![sec](doca/1.potfile)
 Взламаємо weakHash.csv через dictionary
 hashcat.exe -a 0 -m 0 --force weakHash.csv 10-million.txt
+
 ![sec](doca/3.png)
+
 Обраний словник це 1млн популярніших паролей обробився він за 1 хвилину обробив 70087 паролей та взламати зміг лише 28517
 ![sec](doca/2.potfile)
 Тепер спробуємо зламати bcrypt із сіллю через brute-force:
 hashcat.exe -a 3 -m 0 --force strong_w_salt.csv
+
 ![sec](doca/brut 2.PNG)
+
 Можемо поачити що за 50 хвилин утилыта перебрала 155230 паролыв та не 1 з них не підійшов
 
 Тепер спробуємо зламати bcrypt із сіллю через dictionary
+
 ![sec](doca/photo_2021-12-11_22-05-56.jpg)
+
 Можемо побачити що за 10 хвилин ми змогли отримати 9406 паролів.
+
 ![sec](doca/3.potfile)
 
 ## Як результат 

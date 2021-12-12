@@ -11,11 +11,10 @@ namespace Lab4
      
         public static string GetHash(string str )
         {
-            byte[] salt = GenerateSaltBites();
-            SHA1 sha1Hash = SHA1.Create();
-            byte[] sourceBytes = Encoding.UTF8.GetBytes(str);       
+            byte[] salt = GenerateSaltBites();            
+            byte[] sourceBytes = Encoding.UTF8.GetBytes(str);     
            
-            HashAlgorithm algorithm = new SHA256Managed();
+           
             byte[] passwordWithSaltBytes =new byte[sourceBytes.Length + salt.Length];
             byte[] passwordWithSaltBytesOut = new byte[sourceBytes.Length];
 

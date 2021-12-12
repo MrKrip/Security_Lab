@@ -29,7 +29,7 @@ hashcat.exe -a 3 -m 0 --force weakHash.csv
 Взламаємо weakHash.csv через dictionary
 hashcat.exe -a 0 -m 0 --force weakHash.csv 10-million.txt
 
-![sec](doca/3.png)
+![sec](doca/3.PNG)
 
 Обраний словник це 1млн популярніших паролей обробився він за 1 хвилину обробив 70087 паролей та взламати зміг лише 28517
 
@@ -38,7 +38,7 @@ hashcat.exe -a 0 -m 0 --force weakHash.csv 10-million.txt
 Тепер спробуємо зламати bcrypt із сіллю через brute-force:
 hashcat.exe -a 3 -m 0 --force strong_w_salt.csv
 
-![sec](doca/brut/2.PNG)
+![sec](doca/2.PNG)
 
 Можемо поачити що за 50 хвилин утилыта перебрала 155230 паролыв та не 1 з них не підійшов
 

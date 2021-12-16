@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Lab4
 {
-    class Make_md5
+    public class Make_md5
     {
         public static string GetHash(string input)
         {

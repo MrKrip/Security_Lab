@@ -14,5 +14,11 @@ namespace Lab5.Data
         {
             Database.EnsureCreated();
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+        }
     }
 }

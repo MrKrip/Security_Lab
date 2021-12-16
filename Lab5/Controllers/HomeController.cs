@@ -33,8 +33,8 @@ namespace Lab5.Controllers
             if(ModelState.IsValid)
             {
                 string password = Lab4.Make_md5.GetHash(user.Password);
-                password = BCrypt.Net.BCrypt.HashPassword(password, 12);
-                if(db.Users.Where(u=>u.Email==user.Email).FirstOrDefault().Password==password)//$2a$12$owXTQXvLwNbTjyOWccu/MucnZ7orwvjcI44Xz4moQSEYdNC.OyX9S
+                var VerifyUser = db.Users.Where(u => u.Email == user.Email).FirstOrDefault();
+                if (BCrypt.Net.BCrypt.Verify(password,VerifyUser.Password))
                 {
                     return Redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
                 }
@@ -55,8 +55,8 @@ namespace Lab5.Controllers
                 User newUser = new User();
                 newUser.Email = user.Email;
                 string password = Lab4.Make_md5.GetHash(user.Password);
-                newUser.Password = BCrypt.Net.BCrypt.HashPassword(password, 12);
-                db.Users.Add(newUser);
+                newUser.Password = BCrypt.Net.BCrypt.HashPassword(password);
+                db.Users.Add(newUser);                
                 db.SaveChanges();
                 return Redirect("~/Home/Index");
             }

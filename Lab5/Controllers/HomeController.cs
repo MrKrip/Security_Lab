@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Lab5.Controllers
@@ -20,7 +22,7 @@ namespace Lab5.Controllers
         private IHelper _helper;
         private readonly IConfiguration _config;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDB context,IHelper helper,IConfiguration config)
+        public HomeController(ILogger<HomeController> logger, ApplicationDB context, IHelper helper, IConfiguration config)
         {
             _logger = logger;
             db = context;
@@ -36,11 +38,13 @@ namespace Lab5.Controllers
         [HttpPost]
         public IActionResult Index(LoginViewModel user)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 string password = Lab4.Make_md5.GetHash(user.Password);
                 var VerifyUser = db.Users.Where(u => u.Email == user.Email).FirstOrDefault();
-                if (BCrypt.Net.BCrypt.Verify(password,VerifyUser.Password))
+                byte[] nonce = Encoding.ASCII.GetBytes(VerifyUser.Mistery);
+                password = _helper.Encrypt(password, _config, nonce);
+                if (BCrypt.Net.BCrypt.Verify(password, VerifyUser.Password))
                 {
                     return Redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
                 }
@@ -56,13 +60,17 @@ namespace Lab5.Controllers
         [HttpPost]
         public IActionResult Registration(RegisterViewModel user)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 User newUser = new User();
                 newUser.Email = user.Email;
                 string password = Lab4.Make_md5.GetHash(user.Password);
+                var nonce = new byte[AesGcm.NonceByteSizes.MaxSize];
+                RandomNumberGenerator.Fill(nonce);
+                password = _helper.Encrypt(password, _config, nonce);
                 newUser.Password = BCrypt.Net.BCrypt.HashPassword(password);
-                db.Users.Add(newUser);                
+                newUser.Mistery = Encoding.ASCII.GetString(nonce);
+                db.Users.Add(newUser);
                 db.SaveChanges();
                 return Redirect("~/Home/Index");
             }

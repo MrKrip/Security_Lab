@@ -8,6 +8,6 @@ namespace Lab5.Helpers
 {
     public interface IHelper
     {
-        public string Encrypt(string plaintext, IConfiguration _config);
+        public string Encrypt(string plaintext, IConfiguration _config, byte[] nonce);
     }
 }

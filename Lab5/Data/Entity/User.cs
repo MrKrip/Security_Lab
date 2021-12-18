@@ -15,5 +15,7 @@ namespace Lab5.Data.Entity
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }
+        [Required]
+        public string Mistery { get; set; }
     }
 }

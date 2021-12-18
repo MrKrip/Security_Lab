@@ -1,7 +1,9 @@
 ﻿using Lab5.Data;
 using Lab5.Data.Entity;
+using Lab5.Helpers;
 using Lab5.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -15,11 +17,15 @@ namespace Lab5.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private ApplicationDB db;
+        private IHelper _helper;
+        private readonly IConfiguration _config;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDB context)
+        public HomeController(ILogger<HomeController> logger, ApplicationDB context,IHelper helper,IConfiguration config)
         {
             _logger = logger;
             db = context;
+            _helper = helper;
+            _config = config;
         }
 
         public IActionResult Index()

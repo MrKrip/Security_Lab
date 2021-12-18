@@ -42,7 +42,7 @@ namespace Lab5.Controllers
             {
                 string password = Lab4.Make_md5.GetHash(user.Password);
                 var VerifyUser = db.Users.Where(u => u.Email == user.Email).FirstOrDefault();
-                byte[] nonce = Encoding.ASCII.GetBytes(VerifyUser.Mistery);
+                byte[] nonce = Convert.FromBase64String(VerifyUser.Mistery);
                 password = _helper.Encrypt(password, _config, nonce);
                 if (BCrypt.Net.BCrypt.Verify(password, VerifyUser.Password))
                 {
@@ -69,7 +69,7 @@ namespace Lab5.Controllers
                 RandomNumberGenerator.Fill(nonce);
                 password = _helper.Encrypt(password, _config, nonce);
                 newUser.Password = BCrypt.Net.BCrypt.HashPassword(password);
-                newUser.Mistery = Encoding.ASCII.GetString(nonce);
+                newUser.Mistery = Convert.ToBase64String(nonce);
                 db.Users.Add(newUser);
                 db.SaveChanges();
                 return Redirect("~/Home/Index");

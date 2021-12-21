@@ -86,7 +86,7 @@ namespace Lab5.Controllers
 
         public IActionResult Users()
         {
-            List<UserViewModel> users = new List<UserViewModel>();
+            IEnumerable<UserViewModel> users = db.Users.Join(db.UsersInfo, U => U.Id, Ui => Ui.Id,(U,Ui)=>new UserViewModel() { Name=Ui.Name, Email=U.Email, PhoneNumber=Ui.PhoneNumber});
             return View(users);
         }
 

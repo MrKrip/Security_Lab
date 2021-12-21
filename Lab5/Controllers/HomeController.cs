@@ -43,10 +43,11 @@ namespace Lab5.Controllers
                 string password = Lab4.Make_md5.GetHash(user.Password);
                 var VerifyUser = db.Users.Where(u => u.Email == user.Email).FirstOrDefault();
                 byte[] nonce = Convert.FromBase64String(VerifyUser.Mistery);
-                password = _helper.Encrypt(password, _config, nonce);
+                var tag = new byte[AesGcm.TagByteSizes.MaxSize];
+                password = _helper.Encrypt(password, _config, nonce,tag);
                 if (BCrypt.Net.BCrypt.Verify(password, VerifyUser.Password))
                 {
-                    return Redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+                    return Redirect("~/Home/Users");
                 }
             }
             return View();
@@ -65,15 +66,21 @@ namespace Lab5.Controllers
                 User newUser = new User();
                 newUser.Email = user.Email;
                 string password = Lab4.Make_md5.GetHash(user.Password);
-                var nonce = new byte[AesGcm.NonceByteSizes.MaxSize];
+                var nonce = new byte[AesGcm.NonceByteSizes.MaxSize];                
+                var tag = new byte[AesGcm.TagByteSizes.MaxSize];
                 RandomNumberGenerator.Fill(nonce);
-                password = _helper.Encrypt(password, _config, nonce);
+                password = _helper.Encrypt(password, _config, nonce,tag);
                 newUser.Password = BCrypt.Net.BCrypt.HashPassword(password);
                 newUser.Mistery = Convert.ToBase64String(nonce);
                 UserInfo newUserInfo = new UserInfo();
                 newUserInfo.Name = user.Name;
-                newUserInfo.PhoneNumber = user.PhoneNumber;
-                newUserInfo.CreditCard = user.CreditCard;
+                var nonceForCard = new byte[AesGcm.NonceByteSizes.MaxSize];
+                RandomNumberGenerator.Fill(nonceForCard);
+                newUserInfo.CreditCard = _helper.Encrypt(user.CreditCard, _config, nonceForCard, tag);
+                tag = new byte[AesGcm.TagByteSizes.MaxSize];
+                newUserInfo.PhoneNumber = _helper.Encrypt(user.PhoneNumber, _config, nonceForCard, tag);
+                newUserInfo.Nonce = Convert.ToBase64String(nonceForCard);
+                newUserInfo.Tag = Convert.ToBase64String(tag);
                 newUser.UserInfo = newUserInfo;
                 newUserInfo.User = newUser;
                 db.Users.Add(newUser);
@@ -85,8 +92,11 @@ namespace Lab5.Controllers
         }
 
         public IActionResult Users()
-        {
-            IEnumerable<UserViewModel> users = db.Users.Join(db.UsersInfo, U => U.Id, Ui => Ui.Id,(U,Ui)=>new UserViewModel() { Name=Ui.Name, Email=U.Email, PhoneNumber=Ui.PhoneNumber});
+        {          
+            IEnumerable<UserViewModel> users = db.Users.Join(db.UsersInfo, 
+                U => U.Id, Ui => Ui.Id,(U,Ui)=>new UserViewModel() {
+                    Name=Ui.Name, Email=U.Email, PhoneNumber= _helper.Decrypt(Ui.PhoneNumber,_config, Convert.FromBase64String(Ui.Nonce), Convert.FromBase64String(Ui.Tag))
+                });
             return View(users);
         }
 

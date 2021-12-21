@@ -16,8 +16,8 @@ namespace Lab5.Helpers
             string output = string.Empty;
             var key = Encoding.ASCII.GetBytes(_config.GetValue<string>("Keys:AES-GCM"));
             AesGcm Aes = new AesGcm(key);
-            var chipertextBytes = Encoding.ASCII.GetBytes(chipertext);
-            var plaintext = new byte[chipertext.Length];
+            var chipertextBytes = Convert.FromBase64String(chipertext);
+            var plaintext = new byte[chipertextBytes.Length];
             Aes.Decrypt(nonce, chipertextBytes, tag, plaintext);
             output = Encoding.ASCII.GetString(plaintext);
             return output;
@@ -32,7 +32,7 @@ namespace Lab5.Helpers
             var plaintextBytes = Encoding.ASCII.GetBytes(plaintext);
             var ciphertext = new byte[plaintextBytes.Length];           
             Aes.Encrypt(nonce, plaintextBytes, ciphertext, tag);
-            output = Encoding.ASCII.GetString(ciphertext);
+            output = Convert.ToBase64String(ciphertext);
             return output;
         }
     }

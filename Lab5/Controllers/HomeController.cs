@@ -40,6 +40,7 @@ namespace Lab5.Controllers
         {
             if (ModelState.IsValid)
             {
+             
                 string password = Lab4.Make_md5.GetHash(user.Password);
                 var VerifyUser = db.Users.Where(u => u.Email == user.Email).FirstOrDefault();
                 byte[] nonce = Convert.FromBase64String(VerifyUser.Mistery);
@@ -64,18 +65,22 @@ namespace Lab5.Controllers
             if (ModelState.IsValid)
             {
                 User newUser = new User();
-                newUser.Email = user.Email;
+                UserInfo newUserInfo = new UserInfo();
+             
+               
                 string password = Lab4.Make_md5.GetHash(user.Password);
-                var nonce = new byte[AesGcm.NonceByteSizes.MaxSize];                
+                var nonce = new byte[AesGcm.NonceByteSizes.MaxSize];
+                var nonceForCard = new byte[AesGcm.NonceByteSizes.MaxSize];
                 var tag = new byte[AesGcm.TagByteSizes.MaxSize];
                 RandomNumberGenerator.Fill(nonce);
+                RandomNumberGenerator.Fill(nonceForCard);
+
+                newUser.Email = user.Email;
+                newUserInfo.Name = user.Name;
                 password = _helper.Encrypt(password, _config, nonce,tag);
                 newUser.Password = BCrypt.Net.BCrypt.HashPassword(password);
-                newUser.Mistery = Convert.ToBase64String(nonce);
-                UserInfo newUserInfo = new UserInfo();
-                newUserInfo.Name = user.Name;
-                var nonceForCard = new byte[AesGcm.NonceByteSizes.MaxSize];
-                RandomNumberGenerator.Fill(nonceForCard);
+                newUser.Mistery = Convert.ToBase64String(nonce);             
+                
                 newUserInfo.CreditCard = _helper.Encrypt(user.CreditCard, _config, nonceForCard, tag);
                 tag = new byte[AesGcm.TagByteSizes.MaxSize];
                 newUserInfo.PhoneNumber = _helper.Encrypt(user.PhoneNumber, _config, nonceForCard, tag);

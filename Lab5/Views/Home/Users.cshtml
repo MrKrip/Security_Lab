@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Users";
+}
+@model IEnumerable<UserViewModel>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td>@user.PhoneNumber</td>
+                </tr>
+
+            }
+        }
+    </tbody>
+</table>

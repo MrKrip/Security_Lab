@@ -70,11 +70,24 @@ namespace Lab5.Controllers
                 password = _helper.Encrypt(password, _config, nonce);
                 newUser.Password = BCrypt.Net.BCrypt.HashPassword(password);
                 newUser.Mistery = Convert.ToBase64String(nonce);
+                UserInfo newUserInfo = new UserInfo();
+                newUserInfo.Name = user.Name;
+                newUserInfo.PhoneNumber = user.PhoneNumber;
+                newUserInfo.CreditCard = user.CreditCard;
+                newUser.UserInfo = newUserInfo;
+                newUserInfo.User = newUser;
                 db.Users.Add(newUser);
+                db.UsersInfo.Add(newUserInfo);
                 db.SaveChanges();
                 return Redirect("~/Home/Index");
             }
             return View();
+        }
+
+        public IActionResult Users()
+        {
+            List<UserViewModel> users = new List<UserViewModel>();
+            return View(users);
         }
 
         public IActionResult Privacy()
